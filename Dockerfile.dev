@@ -8,4 +8,4 @@ RUN npm run build
 ENV NODE_ENV=development
 ENV JWT_SECRET=upstock#8310103202#satya!
 EXPOSE 8080
-CMD ["npm", "run", "start:live"]
+CMD ["npm", "run", "start:prod"]

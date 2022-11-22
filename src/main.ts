@@ -40,9 +40,7 @@ bootstrap()
     console.log('******** ENV ************');
     console.log(
       '\x1b[44m%s\x1b[0m',
-      'DailyBee Stores GraphQL listening on http://localhost:' +
-        PORT +
-        '/graphql',
+      'Upstock.ai GraphQL listening on http://localhost:' + PORT + '/graphql',
     );
   })
   .catch((res) => console.log('res', res));
