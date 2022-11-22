@@ -6,6 +6,8 @@ import { AppModule } from './app.module';
 import { LoggingInterceptor } from './modules/interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './modules/interceptors/timeout.interceptor';
 
+const PORT = process.env.PORT || 8080;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -28,6 +30,19 @@ async function bootstrap() {
 
   app.enableCors();
 
-  await app.listen(8000);
+  await app.listen(PORT);
 }
-bootstrap();
+bootstrap()
+  .then((v) => {
+    console.log('******** ENV ************');
+    console.log('NODE_ENV :: ', process.env.NODE_ENV);
+    console.log('PORT :: ', PORT);
+    console.log('******** ENV ************');
+    console.log(
+      '\x1b[44m%s\x1b[0m',
+      'DailyBee Stores GraphQL listening on http://localhost:' +
+        PORT +
+        '/graphql',
+    );
+  })
+  .catch((res) => console.log('res', res));
