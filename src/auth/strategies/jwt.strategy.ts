@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { UserService } from '../../user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { privateKey } from '../util/jwt.util';
+import { privateSecret } from '../util/jwt.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       algorithms: 'RS256',
-      secretOrKey: privateKey,
+      secretOrKey: privateSecret,
     });
   }
 
