@@ -5,53 +5,17 @@ import { generateJWT } from '../util/generateJWT';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
+import { JwtService } from '@nestjs/jwt';
+import { privateSecret } from './util/jwt.util';
+import { pick } from 'lodash';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly httpService: HttpService,
+    private jwtService: JwtService,
   ) {}
-
-  async kakaoLogin(accessToken: string): Promise<JwtWithUser> {
-    const requestUrl = 'https://kapi.kakao.com/v2/user/me';
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-    };
-    const params = {
-      secure_resource: true,
-    };
-    const { data } = await firstValueFrom(
-      this.httpService.get(requestUrl, {
-        headers,
-        params,
-      }),
-    );
-    const kakaoAccount = data.kakao_account.profile;
-    const { id } = data;
-    const {
-      nickname,
-      profile_image_url: profileImage,
-      email: username,
-    } = kakaoAccount;
-    const provider = `kakao_${id}`;
-
-    let user = await this.userService.getOne({ where: { provider } });
-
-    if (!user) {
-      user = await this.userService.create({
-        username,
-        nickname,
-        provider,
-        profileImage,
-        role: 'user',
-      });
-    }
-
-    const jwt = generateJWT(user);
-    return { jwt, ...user };
-  }
 
   async baseLogin(email: string, password: string) {
     const user = await this.userService.getOne({
@@ -62,7 +26,12 @@ export class AuthService {
       return new GraphQLError('No user found.');
     }
 
-    const jwt = generateJWT(user);
-    return { jwt, ...user };
+    const picked = pick(user, ['id', 'role']);
+    const token = await this.jwtService.signAsync(picked, {
+      secret: privateSecret,
+      expiresIn: '1y',
+    });
+    // const jwt = generateJWT(user);
+    return { jwt: token, ...user };
   }
 }

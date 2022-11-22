@@ -6,10 +6,10 @@ import { AuthService } from './auth.service';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => JwtWithUser)
-  kakaoLogin(@Args('accessToken') accessToken: string) {
-    return this.authService.kakaoLogin(accessToken);
-  }
+  // @Mutation(() => JwtWithUser)
+  // kakaoLogin(@Args('accessToken') accessToken: string) {
+  //   return this.authService.kakaoLogin(accessToken);
+  // }
 
   @Mutation(() => JwtWithUser)
   baseLogin(@Args('email') email: string, @Args('password') password: string) {

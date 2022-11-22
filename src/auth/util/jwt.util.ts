@@ -3,11 +3,16 @@ import * as jwt from 'jsonwebtoken';
 // You can generate keys by https://travistidwell.com/jsencrypt/demo/
 export const privateSecret = 'mySecretUpstockAI';
 
-export function signJwt(payload) {
-  return jwt.sign(payload, privateSecret, {
-    algorithm: 'RS256',
+export async function signJwt(payload) {
+  const token = await this.jwtService.signAsync(payload, {
+    secret: privateSecret,
     expiresIn: '1y',
   });
+  return token;
+  // return jwt.sign(payload, privateSecret, {
+  //   algorithm: 'RS256',
+  //   expiresIn: '1y',
+  // });
 }
 
 export function decode(token: string) {

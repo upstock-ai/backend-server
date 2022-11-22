@@ -85,7 +85,6 @@ type Mutation {
   deleteFiles(keys: [String!]!): Boolean!
   deleteRacer(id: Float!): Racer!
   deleteUser(id: String!): JSON!
-  kakaoLogin(accessToken: String!): JwtWithUser!
   updateRacer(id: Float!, input: UpdateRacerInput!): Racer!
   updateUser(id: String!, input: UpdateUserInput!): User!
   uploadFile(file: Upload!): String!

@@ -4,5 +4,6 @@ import { User } from '../entities';
 
 export const generateJWT = (user: User) => {
   const picked = pick(user, ['id', 'role']);
+  console.log(picked);
   return signJwt(picked);
 };
