@@ -461,8 +461,8 @@ const start = async () => {
   const spinner = ora(
     '🚀  Code formatting...It will take about 10seconds',
   ).start();
-  const promisedExec = util.promisify(exec);
-  await promisedExec('yarn lint:fix');
+  // const promisedExec = util.promisify(exec);
+  // await promisedExec('yarn lint:fix');
   spinner.succeed('🎉  Done!');
 };
 

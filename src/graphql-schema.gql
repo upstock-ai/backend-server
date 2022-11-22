@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateRacerInput {
+  name: String!
+}
+
 input CreateUserInput {
   nickname: String!
   profileImage: String
@@ -36,6 +40,11 @@ type GetPlaceType {
   data: [Place!]
 }
 
+type GetRacerType {
+  count: Float
+  data: [Racer!]
+}
+
 type GetUserType {
   count: Float
   data: [User!]
@@ -68,11 +77,15 @@ type JwtWithUser {
 }
 
 type Mutation {
+  createManyRacer(input: [CreateRacerInput!]!): [Racer!]!
   createManyUsers(input: [CreateUserInput!]!): [User!]!
+  createRacer(input: CreateRacerInput!): Racer!
   createUser(input: CreateUserInput!): User!
   deleteFiles(keys: [String!]!): Boolean!
+  deleteRacer(id: Float!): Racer!
   deleteUser(id: String!): JSON!
   kakaoLogin(accessToken: String!): JwtWithUser!
+  updateRacer(id: Float!, input: UpdateRacerInput!): Racer!
   updateUser(id: String!, input: UpdateUserInput!): User!
   uploadFile(file: Upload!): String!
   uploadFiles(files: [Upload!]!): [String!]!
@@ -87,9 +100,20 @@ type Place {
 
 type Query {
   getManyPlaces(input: GetManyInput): GetPlaceType!
+  getManyRacers(input: GetManyInput): GetRacerType!
   getManyUsers(input: GetManyInput): GetUserType!
   getMe: User!
+  getOneRacer(input: GetOneInput): Racer!
   getOneUser(input: GetOneInput): User!
+}
+
+type Racer {
+  id: ID!
+  name: String!
+}
+
+input UpdateRacerInput {
+  name: String!
 }
 
 input UpdateUserInput {
