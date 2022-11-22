@@ -4,6 +4,7 @@ import { UserService } from '../user/user.service';
 import { generateJWT } from '../util/generateJWT';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { GraphQLError } from 'graphql';
 
 @Injectable()
 export class AuthService {
@@ -46,6 +47,19 @@ export class AuthService {
         profileImage,
         role: 'user',
       });
+    }
+
+    const jwt = generateJWT(user);
+    return { jwt, ...user };
+  }
+
+  async baseLogin(email: string, password: string) {
+    const user = await this.userService.getOne({
+      where: { username: email, provider: password },
+    });
+
+    if (!user) {
+      return new GraphQLError('No user found.');
     }
 
     const jwt = generateJWT(user);

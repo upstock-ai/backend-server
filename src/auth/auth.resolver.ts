@@ -10,4 +10,9 @@ export class AuthResolver {
   kakaoLogin(@Args('accessToken') accessToken: string) {
     return this.authService.kakaoLogin(accessToken);
   }
+
+  @Mutation(() => JwtWithUser)
+  baseLogin(@Args('email') email: string, @Args('password') password: string) {
+    return this.authService.baseLogin(email, password);
+  }
 }
